@@ -1,0 +1,293 @@
+/* styles.css */
+
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  font-size: 15px;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Header */
+.header {
+  background: #3a4a5a url('bg-pattern.png') repeat;
+  color: white;
+  padding-bottom: 80px;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 0 10px;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 25px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: 600;
+  padding-bottom: 4px;
+}
+
+.nav-links .active {
+  border-bottom: 2px solid #fff;
+}
+
+.hero {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  padding-top: 40px;
+  gap: 60px;
+}
+
+.hero-image {
+  max-width: 300px;
+}
+
+.hero-text {
+  max-width: 480px;
+}
+
+.hero-text h2 {
+  font-size: 36px;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-text p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.hero-text .light {
+  color: #aaa;
+  font-weight: 400;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  margin-top: 25px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.btn {
+  background: linear-gradient(to bottom, #63b4f4 0%, #4a90e2 100%);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: 0.3s ease-in-out;
+}
+
+.buttons a:last-of-type {
+  color: white;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+/* Clients */
+.clients {
+  background: #ececec;
+  padding: 30px 0;
+}
+
+.logos {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+/* Features */
+.features {
+  background: #f9f9f9;
+  padding: 60px 0;
+  text-align: center;
+}
+
+.feature {
+  display: inline-block;
+  width: 30%;
+  min-width: 280px;
+  margin: 30px 1%;
+  vertical-align: top;
+}
+
+.feature img {
+  height: 80px;
+  width: 80px;
+  border: 2px solid #c9d1dc;
+  border-radius: 50%;
+  padding: 10px;
+  background: white;
+}
+
+.feature h3 {
+  font-size: 20px;
+  margin-top: 20px;
+  color: #3e4b5b;
+}
+
+.feature p {
+  color: #666;
+  font-size: 14px;
+  padding: 10px 0 20px;
+}
+
+.feature .btn {
+  font-size: 13px;
+  padding: 8px 20px;
+  border-radius: 20px;
+}
+
+/* Projects */
+.projects {
+  background: white;
+  padding: 60px 0;
+}
+
+.projects h2 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #5e6e7e;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.project-list {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.project-list img {
+  width: 230px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Blog & Twitter */
+.blog-twitter {
+  background: #fff;
+  padding: 60px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+}
+
+.blog, .twitter {
+  flex: 1;
+  min-width: 300px;
+}
+
+.blog h3, .twitter h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.blog article h4 {
+  font-size: 16px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.blog article p, .twitter p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 10px;
+}
+
+/* Footer */
+footer {
+  background: white;
+  text-align: center;
+  padding: 25px 0;
+  color: #666;
+}
+
+footer .social-icons {
+  margin-top: 15px;
+}
+
+.social-icons img {
+  width: 22px;
+  margin: 0 8px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.social-icons img:hover {
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .project-list {
+    justify-content: center;
+  }
+
+  .blog-twitter {
+    flex-direction: column;
+  }
+
+  .feature {
+    width: 80%;
+    margin: 30px auto;
+  }
+}
+
+.section-title {
+  display: flex;
+  justify-content: space-between; /* texto a la izquierda, imagen a la derecha */
+  align-items: center;
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.section-title img {
+  width: 20px;
+  height: auto;
+  margin-left: 10px;
+}
+
+.blog-twitter .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 40px;
+  flex-wrap: wrap; /* permite que se acomoden en móviles */
+}
+
+.blog, .twitter {
+width: 48%;
+}

@@ -1,0 +1,59 @@
+ul {
+    list-style: none;
+}
+
+body {
+    background-color: white;
+    
+}
+
+.prin {
+    width: 100%;
+    z-index: 3;
+    position: relative;
+
+    
+}
+
+/* estilos del navbar */
+.container-nav {
+    padding: 0px 0px 0px 0px;
+    border-bottom: 0.7px solid rgb(110, 106, 106); 
+    margin-bottom: 7px;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    background-color: #f5eded;
+    z-index: 3;
+
+}
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    height: 40px;
+    margin: 12px;
+    
+}
+
+.list-servicos {
+    display: flex;
+    justify-content: space-between;
+    width: 300px;
+    margin: 0px;
+    font-size: 20px;
+}
+
+.container-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.img-card {
+    width: 34px;
+    height: 34px;
+    
+    margin-right: 20px;
+}

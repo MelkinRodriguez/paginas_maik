@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Favoritos - CHIC BOUTIQUE</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        .favoritos-container {
+            max-width: 1100px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+        .favoritos-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .favoritos-header h1 {
+            font-size: 36px;
+            color: #111;
+            margin-bottom: 10px;
+        }
+        .favoritos-header p {
+            color: #666;
+            font-size: 18px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 30px;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s;
+            position: relative;
+        }
+        .product-image img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #f8f9fa;
+            margin-bottom: 12px;
+        }
+        .product-info h3 {
+            margin: 0 0 8px 0;
+            color: #111;
+            font-size: 18px;
+        }
+        .product-info .price {
+            color: #111;
+            font-weight: bold;
+            font-size: 17px;
+        }
+        .remove-fav-btn {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: #e74c3c;
+            font-size: 22px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .remove-fav-btn:hover {
+            color: #c0392b;
+        }
+        .empty-favs {
+            text-align: center;
+            color: #666;
+            padding: 60px 20px;
+        }
+        .empty-favs i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <header class="prin">
+        <nav class="container-nav">
+            <ul class="navbar">
+                <li class="container-logo"><img class="img-logo" src="./img/logo.png" /> <p class="text-logo">𝑪𝑯𝑰𝑪 𝑩𝑶𝑼𝑻𝑰𝑸𝑼𝑬</p></li>
+                <li class="container-list">
+                    <ul class="list-servicos">
+                        <b><li><a href="./index.html">Inicio</a></li></b>
+                        <b><li><a href="./productos.html">Productos</a></li></b>
+                        <b><li><a href="./nosotros.html">Nosotros</a></li></b>
+                        <b><li><a href="./orders.html">Mis Pedidos</a></li></b>
+                        <li class="user-info" id="user-info"></li>
+                        <li class="cart-icon">
+                            <a href="#" id="cart-toggle">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="cart-count" class="cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <div class="favoritos-container">
+        <div class="favoritos-header">
+            <h1>Mis Favoritos</h1>
+            <p>Todos los productos que has marcado como favoritos</p>
+        </div>
+        <div id="favoritos-list" class="products-grid"></div>
+    </div>
+    <script>
+    // Mostrar usuario en barra nav
+    function renderUserInfo() {
+        const userInfo = document.getElementById('user-info');
+        const user = JSON.parse(localStorage.getItem('user'));
+        const avatar = localStorage.getItem('user_avatar');
+        if (userInfo) {
+            if (user) {
+                userInfo.innerHTML = `<img src="${avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.nombre) + '&background=111&color=fff&size=32'}" style="width:32px;height:32px;border-radius:50%;object-fit:cover;margin-right:6px;border:2px solid #111;vertical-align:middle;"> ${user.nombre} <a href='#' id='logout-link' style='margin-left:10px;color:#e74c3c;'>Cerrar sesión</a>`;
+                document.getElementById('logout-link').onclick = function() {
+                    localStorage.removeItem('user');
+                    localStorage.removeItem('user_avatar');
+                    location.reload();
+                };
+            } else {
+                userInfo.innerHTML = `<i class="fas fa-user-circle" style="font-size:32px;color:#111;margin-right:6px;vertical-align:middle;"></i> <a href='login.html'>Iniciar sesión</a>`;
+            }
+        }
+    }
+    document.addEventListener('DOMContentLoaded', renderUserInfo);
+    // Mostrar favoritos
+    function loadFavoritos() {
+        const favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+        const list = document.getElementById('favoritos-list');
+        if (favs.length === 0) {
+            list.innerHTML = `<div class='empty-favs'><i class='far fa-heart'></i><h3>No tienes productos favoritos</h3><p>¡Marca productos con el corazón para verlos aquí!</p></div>`;
+            return;
+        }
+        list.innerHTML = favs.map(item => `
+            <div class='product-card'>
+                <button class='remove-fav-btn' onclick='removeFav(${item.id})' title='Quitar de favoritos'><i class='fas fa-times'></i></button>
+                <div class='product-image'><img src='${item.image}' alt='${item.name}'></div>
+                <div class='product-info'>
+                    <h3>${item.name}</h3>
+                    <div class='price'>$${item.price.toFixed(2)}</div>
+                </div>
+            </div>
+        `).join('');
+    }
+    function removeFav(id) {
+        let favs = JSON.parse(localStorage.getItem('favoritos')) || [];
+        favs = favs.filter(f => f.id !== id);
+        localStorage.setItem('favoritos', JSON.stringify(favs));
+        loadFavoritos();
+    }
+    loadFavoritos();
+    </script>
+</body>
+</html> 

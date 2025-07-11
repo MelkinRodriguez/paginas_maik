@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>𝑷𝒓𝒐𝒅𝒖𝒄𝒕𝒐𝒔 - CHIC BOUTIQUE Marketplace</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0 0 10px;
+        }
+        .container-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .container-list {
+            flex: 1;
+        }
+        .list-servicos {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .list-servicos b li {
+            display: inline-block;
+            margin: 0 8px;
+        }
+        .cart-icon {
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        @media (max-width: 768px) {
+            .list-servicos {
+                gap: 16px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-icon {
+                margin: 10px 0 0 0;
+            }
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #111;
+            font-size: 16px;
+            gap: 8px;
+        }
+        .user-info i.fas.fa-user-circle, .user-info i.fas.fa-user {
+            color: #111 !important;
+            font-size: 22px;
+        }
+        .user-info a#logout-link {
+            color: #111;
+            background: #fff;
+            border-radius: 5px;
+            padding: 2px 10px;
+            margin-left: 10px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .user-info a#logout-link:hover {
+            background: #111;
+            color: #fff;
+        }
+        .user-info a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .user-info a:hover {
+            color: #fff;
+            background: #111;
+            border-radius: 5px;
+            padding: 2px 10px;
+        }
+        .add-to-cart-btn, .checkout-btn {
+            background: #111 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-cart-btn:hover, .checkout-btn:hover {
+            background: #fff !important;
+            color: #111 !important;
+            border: 1.5px solid #111;
+        }
+        .price, .order-item-price {
+            color: #222 !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="prin">
+        <nav class="container-nav">
+            <ul class="navbar">
+                <li class="container-logo"><img class="img-logo" src="./img/logo.png" /> <p class="text-logo">𝑪𝑯𝑰𝑪 𝑩𝑶𝑼𝑻𝑰𝑸𝑼𝑬</p></li>
+                <li class="container-list">
+                    <ul class="list-servicos">
+                        <b><li> <a href="./index.html">𝑰𝒏𝒊𝒄𝒊𝒐</a></li></b>
+                        <b><li><a href=".productos.html">𝑷𝒓𝒐𝒅𝒖𝒄𝒕𝒐𝒔</a></li></b>
+                        <b><li> <a href="./nosotros.html">𝑵𝒐𝒔𝒐𝒕𝒓𝒐𝒔</a></li></b>
+                        <b><li><a href="./orders.html">𝑴𝒊𝒔 𝑷𝒆𝒅𝒊𝒅𝒐𝒔</a></li></b>
+                        <li class="user-info" id="user-info"></li>
+                        <li class="cart-icon">
+                            <a href="#" id="cart-toggle">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="cart-count" class="cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>🛒 Tu Carrito</h3>
+                <button id="close-cart" class="close-btn">&times;</button>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <!-- Los items del carrito se agregarán aquí dinámicamente -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0</span></strong>
+                </div>
+                <button id="checkout-btn" class="checkout-btn">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="products-container">
+        <!-- Barra de búsqueda y filtros -->
+        <div class="search-filters">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Buscar productos..." onkeyup="searchProducts(this.value)">
+                <i class="fas fa-search"></i>
+            </div>
+            <div class="filters">
+                <select id="category-filter" onchange="filterByCategory(this.value)">
+                    <option value="all">Todas las categorías</option>
+                    <option value="zapatos">Zapatos</option>
+                    <option value="blusas">Blusas</option>
+                    <option value="bolsos">Bolsos</option>
+                    <option value="accesorios">Accesorios</option>
+                    <option value="vestidos">Vestidos</option>
+                    <option value="tacones">Tacones</option>
+                </select>
+                <select id="price-filter" onchange="filterByPrice(this.value)">
+                    <option value="all">Todos los precios</option>
+                    <option value="0-50">$0 - $50</option>
+                    <option value="50-100">$50 - $100</option>
+                    <option value="100-200">$100 - $200</option>
+                    <option value="200+">$200+</option>
+                </select>
+                <button onclick="resetFilters()" class="reset-btn">
+                    <i class="fas fa-undo"></i> Limpiar Filtros
+                </button>
+            </div>
+        </div>
+
+        <!-- Contador de productos -->
+        <div class="products-count">Mostrando 21 productos</div>
+        
+        <!-- Grid de productos -->
+        <div class="products-grid">
+            <!-- Zapatos -->
+            <div class="product-card" data-category="zapatos" data-price="89.99">
+                <div class="product-image">
+                    <img src="./img/taconm32.png" alt="Tacones Elegantes">
+                    <button class="favorite-btn" onclick="toggleFavorite(1)" data-favorite="1">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Tacones Elegantes</h3>
+                    <p class="description">Tacones elegantes para ocasiones especiales</p>
+                    <p class="price">$89.99</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(1, 'Tacones Elegantes', 89.99, './img/taconm32.png')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(1)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Más productos de ejemplo -->
+            <div class="product-card" data-category="zapatos" data-price="75.50">
+                <div class="product-image">
+                    <img src="./img/zapatos azules .jpeg" alt="Zapatos Azules">
+                    <button class="favorite-btn" onclick="toggleFavorite(2)" data-favorite="2">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Zapatos Azules</h3>
+                    <p class="description">Zapatos casuales en color azul</p>
+                    <p class="price">$75.50</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(2, 'Zapatos Azules', 75.50, './img/zapatos azules .jpeg')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(2)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="zapatos" data-price="65.00">
+                <div class="product-image">
+                    <img src="./img/zapatos blancos.jpeg" alt="Zapatos Blancos">
+                    <button class="favorite-btn" onclick="toggleFavorite(3)" data-favorite="3">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Zapatos Blancos</h3>
+                    <p class="description">Zapatos blancos elegantes y versátiles</p>
+                    <p class="price">$65.00</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(3, 'Zapatos Blancos', 65.00, './img/zapatos blancos.jpeg')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(3)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="bolsos" data-price="120.99">
+                <div class="product-image">
+                    <img src="./img/bolsosportada.png" alt="Bolso Elegante">
+                    <button class="favorite-btn" onclick="toggleFavorite(4)" data-favorite="4">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Bolso Elegante</h3>
+                    <p class="description">Bolso de mano elegante y espacioso</p>
+                    <p class="price">$120.99</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(4, 'Bolso Elegante', 120.99, './img/bolsosportada.png')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(4)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="bolsos" data-price="95.00">
+                <div class="product-image">
+                    <img src="./img/bolso.png" alt="Bolso Casual">
+                    <button class="favorite-btn" onclick="toggleFavorite(5)" data-favorite="5">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Bolso Casual</h3>
+                    <p class="description">Bolso casual perfecto para el día</p>
+                    <p class="price">$95.00</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(5, 'Bolso Casual', 95.00, './img/bolso.png')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(5)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="blusas" data-price="45.99">
+                <div class="product-image">
+                    <img src="./img/blusas.jpg" alt="Blusa Casual">
+                    <button class="favorite-btn" onclick="toggleFavorite(6)" data-favorite="6">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Blusa Casual</h3>
+                    <p class="description">Blusa cómoda para el día a día</p>
+                    <p class="price">$45.99</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(6, 'Blusa Casual', 45.99, './img/blusas.jpg')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(6)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="blusas" data-price="55.00">
+                <div class="product-image">
+                    <img src="./img/busa rosa.jpeg" alt="Blusa Rosa">
+                    <button class="favorite-btn" onclick="toggleFavorite(7)" data-favorite="7">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Blusa Rosa</h3>
+                    <p class="description">Blusa elegante en color rosa</p>
+                    <p class="price">$55.00</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(7, 'Blusa Rosa', 55.00, './img/busa rosa.jpeg')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(7)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="vestidos" data-price="150.00">
+                <div class="product-image">
+                    <img src="./img/vestido sub.png" alt="Vestido Elegante">
+                    <button class="favorite-btn" onclick="toggleFavorite(8)" data-favorite="8">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Vestido Elegante</h3>
+                    <p class="description">Vestido elegante para ocasiones especiales</p>
+                    <p class="price">$150.00</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(8, 'Vestido Elegante', 150.00, './img/vestido sub.png')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(8)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="product-card" data-category="accesorios" data-price="25.99">
+                <div class="product-image">
+                    <img src="./img/ARETES.jpeg" alt="Aretes Elegantes">
+                    <button class="favorite-btn" onclick="toggleFavorite(9)" data-favorite="9">
+                        <i class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="product-info">
+                    <h3>Aretes Elegantes</h3>
+                    <p class="description">Aretes elegantes para complementar tu look</p>
+                    <p class="price">$25.99</p>
+                    <div class="product-actions">
+                        <button class="add-to-cart-btn" onclick="addToCart(9, 'Aretes Elegantes', 25.99, './img/ARETES.jpeg')">
+                            <i class="fas fa-shopping-cart"></i> Agregar
+                        </button>
+                        <button class="view-details-btn" onclick="viewProductDetails(9)">
+                            <i class="fas fa-eye"></i> Ver
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container_23">
+            <div class="footer-ron">
+                <div class="footer-link">
+                    <h4>COMUNICATE ATRAVES DE:</h4>
+                    <ul>
+                        <li><a href="a"> FACEBOOK</a></li>
+                        <li><a href="a">WHATSAPP</a></li>
+                        <li><a href="a">GMAIL</a></li>
+                    </ul>
+                </div>
+                <div class="footer-link">
+                    <h4>SERVICIOS  </h4>
+                    <ul>
+                        <li><a href="a">ZAPATOS</a></li>
+                        <li><a href="a">ROPA </a></li>
+                        <li><a href="a">ACESORIOS </a></li>
+                        <li><a href="a">BOLSOS </a></li>
+                    </ul>
+                </div>
+                <div class="footer-link">
+                    <h4>COMPAÑIA  </h4>
+                    <ul>
+                        <li><a href="a">POLITICA </a></li>
+                        <li><a href="./nosotros.html"> MAS SOBRE NOSOTROS  </a></li>
+                        <li><a href="a">FORMAS DE PAGOS </a></li>
+                        <li><a href="a">CUALQUIERA PUEDE COMPRARTAR </a></li>
+                    </ul>
+                </div>
+                <div class="footer-link">
+                    <h4>SIGAMOS EN NUESTRAS REDES </h4>
+                    <div class="social-link">
+                        <a href="a"><i class="fab fa-whatsapp"></i></a>
+                        <a href="a"><i class="fab fa-facebook"></i></a> 
+                        <a href="a"><i class="fab fa-instagram"></i></a> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const userInfo = document.getElementById('user-info');
+    if (!userInfo) return;
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (user) {
+        userInfo.innerHTML = `
+            <i class='fas fa-user-circle'></i> ${user.nombre}
+            <a href="#" id="logout-link" style="margin-left:10px;color:#e74c3c;">Cerrar sesión</a>
+        `;
+        document.getElementById('logout-link').onclick = function() {
+            localStorage.removeItem('user');
+            location.reload();
+        };
+    } else {
+        userInfo.innerHTML = `<a href="login.html"><i class="fas fa-user"></i> Iniciar sesión</a>`;
+    }
+});
+</script>
+</body>
+</html>  

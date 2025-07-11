@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administrador - CHIC BOUTIQUE</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #f8fafc 0%, #e3e6f3 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .auth-container {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            padding: 0;
+        }
+        .auth-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            border: 2.5px solid #111;
+            margin: 0 auto;
+        }
+        .admin-header {
+            background: linear-gradient(90deg, #111 0%, #e3e6f3 100%);
+            color: #fff;
+            padding: 40px 30px 30px 30px;
+            text-align: center;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .admin-header h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+        .admin-header p {
+            font-size: 1.1rem;
+            color: #e3e6f3;
+            margin: 0;
+        }
+        .admin-form {
+            padding: 40px 30px 30px 30px;
+            background: #fff;
+            border-radius: 0 0 20px 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .admin-form .form-group label {
+            color: #111;
+            font-weight: 600;
+        }
+        .admin-form .auth-btn {
+            background: linear-gradient(90deg, #111 0%, #e3e6f3 100%);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border: none;
+            margin-top: 10px;
+        }
+        .admin-form .auth-btn:hover {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #111;
+        }
+        .admin-success {
+            color: #27ae60;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.1rem;
+        }
+        .admin-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+        .admin-footer a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .admin-footer a:hover {
+            text-decoration: underline;
+        }
+        .admin-products-list {
+            margin-top: 40px;
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+        }
+        .admin-products-list h3 {
+            margin-top: 0;
+            color: #111;
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+        .admin-product-item {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            padding: 12px 0;
+            border-bottom: 1px solid #e1e1e1;
+        }
+        .admin-product-item:last-child {
+            border-bottom: none;
+        }
+        .admin-product-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1.5px solid #e3e6f3;
+        }
+        .admin-product-info {
+            flex: 1;
+        }
+        .admin-product-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+            color: #111;
+        }
+        .admin-product-info p {
+            margin: 0;
+            color: #555;
+            font-size: 0.97rem;
+        }
+        .admin-product-price {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card" style="max-width: 600px; width: 100%;">
+            <div class="admin-header">
+                <h2><i class="fas fa-user-shield"></i> Panel de Administrador</h2>
+                <p>Sube nuevos productos a CHIC BOUTIQUE y gestiona tu catálogo</p>
+            </div>
+            <div class="admin-form">
+                <form id="productForm">
+                    <div class="form-group">
+                        <label for="product-name">Nombre del producto</label>
+                        <input type="text" id="product-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-desc">Descripción</label>
+                        <input type="text" id="product-desc" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-price">Precio</label>
+                        <input type="number" id="product-price" min="0" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="product-image">Imagen</label>
+                        <select id="product-image" required style="width:100%;padding:10px;border-radius:8px;">
+                            <option value="">Selecciona una imagen</option>
+                            <option value="img/bolso1.jpeg">bolso1.jpeg</option>
+                            <option value="img/vestidoA7.jpeg">vestidoA7.jpeg</option>
+                            <option value="img/blusa negra2.jpeg">blusa negra2.jpeg</option>
+                            <option value="img/zapatos rojos .jpeg">zapatos rojos .jpeg</option>
+                            <option value="img/jean.azul.jpg">jean.azul.jpg</option>
+                            <option value="img/mochila.png">mochila.png</option>
+                            <option value="img/chaqueta.webp">chaqueta.webp</option>
+                            <option value="img/pijamas.jpg">pijamas.jpg</option>
+                            <option value="img/bolso 3.jpeg">bolso 3.jpeg</option>
+                            <option value="img/vestido d2.jpeg">vestido d2.jpeg</option>
+                            <option value="img/bolsas 6.jpeg">bolsas 6.jpeg</option>
+                            <option value="img/bolso 5.jpeg">bolso 5.jpeg</option>
+                            <option value="img/vestido m5.jpeg">vestido m5.jpeg</option>
+                            <option value="img/vestido d3.jpeg">vestido d3.jpeg</option>
+                            <option value="img/bolso 4.jpeg">bolso 4.jpeg</option>
+                            <option value="img/bolso.png">bolso.png</option>
+                            <option value="img/bolsosportada.png">bolsosportada.png</option>
+                            <option value="img/vestido.png">vestido.png</option>
+                            <option value="img/vestidos123.jpg">vestidos123.jpg</option>
+                        </select>
+                        <div style="margin-top:10px;text-align:center;">
+                            <img id="preview-image" src="" alt="Previsualización" style="max-width:120px;max-height:120px;display:none;border-radius:8px;border:1.5px solid #e3e6f3;"/>
+                        </div>
+                    </div>
+                    <button type="submit" class="auth-btn"><i class="fas fa-upload"></i> Subir producto</button>
+                </form>
+                <div class="admin-success" id="product-success" style="display:none;">¡Producto subido correctamente!</div>
+            </div>
+            <div class="admin-products-list" id="admin-products-list" style="display:none;">
+                <h3>Productos subidos</h3>
+                <div id="admin-products-container"></div>
+            </div>
+            <div class="admin-footer">
+                <a href="index.html">Volver al inicio</a>
+            </div>
+        </div>
+    </div>
+    <script src="https://kit.fontawesome.com/2c36e9b7b1.js" crossorigin="anonymous"></script>
+    <script>
+    // Previsualización de imagen seleccionada
+    document.addEventListener('DOMContentLoaded', function() {
+        const select = document.getElementById('product-image');
+        const preview = document.getElementById('preview-image');
+        select.addEventListener('change', function() {
+            if (select.value) {
+                preview.src = select.value;
+                preview.style.display = 'inline-block';
+            } else {
+                preview.style.display = 'none';
+            }
+        });
+    });
+    </script>
+    <script src="admin.js"></script>
+</body>
+</html> 

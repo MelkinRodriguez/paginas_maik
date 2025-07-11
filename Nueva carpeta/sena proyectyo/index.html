@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHIC BOUTIQUE - Marketplace</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0 0 10px;
+        }
+        .container-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .container-list {
+            flex: 1;
+        }
+        .list-servicos {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .list-servicos b li {
+            display: inline-block;
+            margin: 0 8px;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #111;
+            font-size: 16px;
+            gap: 8px;
+        }
+        .user-info i.fas.fa-user-circle, .user-info i.fas.fa-user {
+            color: #111 !important;
+            font-size: 22px;
+        }
+        .user-info a#logout-link {
+            color: #111;
+            background: #fff;
+            border-radius: 5px;
+            padding: 2px 10px;
+            margin-left: 10px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .user-info a#logout-link:hover {
+            background: #111;
+            color: #fff;
+        }
+        .user-info a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .user-info a:hover {
+            color: #fff;
+            background: #111;
+            border-radius: 5px;
+            padding: 2px 10px;
+        }
+        .cart-icon {
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        .add-to-cart-btn, .checkout-btn {
+            background: #111 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-cart-btn:hover, .checkout-btn:hover {
+            background: #fff !important;
+            color: #111 !important;
+            border: 1.5px solid #111;
+        }
+        .price {
+            color: #111 !important;
+            font-weight: bold;
+        }
+        @media (max-width: 768px) {
+            .list-servicos {
+                gap: 16px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-icon {
+                margin: 10px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="prin">
+        <nav class="container-nav">
+            <ul class="navbar">
+                <li class="container-logo"><img class="img-logo" src="./img/logo.png" /> <p class="text-logo">𝑪𝑯𝑰𝑪 𝑩𝑶𝑼𝑻𝑰𝑸𝑼𝑬</p></li>
+                <li class="container-list">
+                    <ul class="list-servicos">
+                        <b><li><a href="./index.html">𝑰𝒏𝒊𝒄𝒊𝒐</a></li></b>
+                        <b><li><a href="./productos.html">𝑷𝒓𝒐𝒅𝒖𝒄𝒕𝒐𝒔</a></li></b>
+                        <b><li><a href="./nosotros.html">𝑵𝒐𝒔𝒐𝒕𝒓𝒐𝒔</a></li></b>
+                        <b><li><a href="./orders.html">𝑴𝒊𝒔 𝑷𝒆𝒅𝒊𝒅𝒐𝒔</a></li></b>
+                        <li class="user-info" id="user-info"></li>
+                        <li class="cart-icon">
+                            <a href="#" id="cart-toggle">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="cart-count" class="cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const userInfo = document.getElementById('user-info');
+        if (!userInfo) return;
+        const user = JSON.parse(localStorage.getItem('user'));
+        if (user) {
+            userInfo.innerHTML = `
+                <i class='fas fa-user-circle'></i> ${user.nombre}
+                <a href="#" id="logout-link" style="margin-left:10px;color:#e74c3c;">Cerrar sesión</a>
+            `;
+            document.getElementById('logout-link').onclick = function() {
+                localStorage.removeItem('user');
+                location.reload();
+            };
+        } else {
+            userInfo.innerHTML = `<a href="login.html"><i class="fas fa-user"></i> Iniciar sesión</a>`;
+        }
+    });
+    </script>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>🛒 Tu Carrito</h3>
+                <button id="close-cart" class="close-btn">&times;</button>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <!-- Los items del carrito se agregarán aquí dinámicamente -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0</span></strong>
+                </div>
+                <button id="checkout-btn" class="checkout-btn">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="info-ofertas">
+            <img class="img-modelo" src="./img/modelopng.png"/>
+            <div class="container-ofertas">
+                <h1 class="text-ofertas">OFERTAS <br> ESPECIALES</h1>
+                <h5>ESTRENA LAS MEJORES PRENDAS</h5>
+                 <a href="productos.html"><button class="button-info">Información</button></a>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <center><h1>CATEGORÍAS</h1> </center>
+    <br>
+
+    <section class="cont-cat">
+        <div class="cont-card1 animate-scroll-left">
+            <div class="card-products">
+                <img class="img-product" src="./img/taconm32.png"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product">ZAPATOS</h2>
+                    <button class="button-info">Ver más</button>
+                </div>
+            </div>
+            <div class="card-products">
+                <img class="img-product" src="./img/blusas.jpg"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product">BLUSAS</h2>
+                    <button class="button-info"><a href="BLUSAS.html">Ver más</a> </button>
+                
+                </div>
+            </div> 
+            <div class="card-products">
+                <img class="img-product" src="./img/bolsosportada.png"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product">BOLSOS</h2>
+                    <button class="button-info"> <a href="bolsos.html">Ver más</a> </button>
+                </div>
+            </div>
+            <div class="card-products">
+                <img class="img-product" src="./img/acses233.png"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product"> ACCESORIOS</h2>
+                    <button class="button-info"> <a href="Accesorio.html">Ver más</a></button>
+                </div>
+            </div>
+
+            <!-- Duplicado de elementos para el scroll infinito -->
+            <div class="card-products">
+                <img class="img-product" src="./img/taconm32.png"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product">TACONES</h2>
+                    <button class="button-info"><a href="tacones.html"> Ver más</a></button> 
+                </div>
+            </div>
+            <div class="card-products">
+                <img class="img-product" src="./img/vestido sub.png"/>
+                <div class="container-infoproduct">
+                    <h2 class="text-product">VESTIDOS</h2>
+                    <button class="button-info"><a href="vestidos.html">Ver más</a></button>
+                </div>
+            </div>
+           
+           
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos Destacados -->
+    <section class="featured-products">
+        <h2 class="section-title">Productos Destacados</h2>
+        <div class="products-grid">
+            <div class="product-card" data-id="1" data-price="89.99">
+                <img src="./img/taconm32.png" alt="Tacones Elegantes">
+                <div class="product-info">
+                    <h3>Tacones Elegantes</h3>
+                    <p class="price">$89.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(1, 'Tacones Elegantes', 89.99, './img/taconm32.png')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-id="2" data-price="45.99">
+                <img src="./img/blusas.jpg" alt="Blusa Casual">
+                <div class="product-info">
+                    <h3>Blusa Casual</h3>
+                    <p class="price">$45.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(2, 'Blusa Casual', 45.99, './img/blusas.jpg')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-id="3" data-price="120.99">
+                <img src="./img/bolsosportada.png" alt="Bolso Elegante">
+                <div class="product-info">
+                    <h3>Bolso Elegante</h3>
+                    <p class="price">$120.99</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(3, 'Bolso Elegante', 120.99, './img/bolsosportada.png')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-id="15" data-price="180.00">
+                <img src="./img/vestido a1.png" alt="Vestido de Fiesta">
+                <div class="product-info">
+                    <h3>Vestido de Fiesta</h3>
+                    <p class="price">$180.00</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(15, 'Vestido de Fiesta', 180.00, './img/vestido a1.png')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-id="19" data-price="35.00">
+                <img src="./img/ANILLOS SERPI.jpeg" alt="Anillos Elegantes">
+                <div class="product-info">
+                    <h3>Anillos Elegantes</h3>
+                    <p class="price">$35.00</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(19, 'Anillos Elegantes', 35.00, './img/ANILLOS SERPI.jpeg')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+            <div class="product-card" data-id="11" data-price="95.00">
+                <img src="./img/tacon1.PNG" alt="Tacones Altos">
+                <div class="product-info">
+                    <h3>Tacones Altos</h3>
+                    <p class="price">$95.00</p>
+                    <button class="add-to-cart-btn" onclick="addToCart(11, 'Tacones Altos', 95.00, './img/tacon1.PNG')">
+                        <i class="fas fa-shopping-cart"></i> Agregar al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<footer class="footer">
+<div class="container_23">
+        
+        <div class="footer-ron">
+             
+            <div class="footer-link">
+                <h4>COMUNICATE ATRAVES DE:</h4>
+
+                <ul>
+                    <li><a href="a"> FACEBOOK</a></li>
+                    <li><a href="a">WHATSAPP</a></li>
+                    <li><a href="a">GMAIL</a></li>
+                    
+                </ul>
+
+            </div>
+            <div class="footer-link">
+                <h4>SERVICIOS  </h4>
+
+                <ul>
+                    <li><a href="a">ZAPATOS</a></li>
+                    <li><a href="a">ROPA </a></li>
+                    <li><a href="a">ACESORIOS </a></li>
+                    <li><a href="a">BOLSOS </a></li>
+                </ul>
+            </div>
+
+            <div class="footer-link">
+                <h4>COMPAÑIA  </h4>
+
+                <ul>
+                    <li><a href="a">POLITICA </a></li>
+                    <li><a href="./nosotros.html">MAS SOBRE NOSOTROS  </a></li>
+                    <li><a href="">FORMAS DE PAGOS</a> </li>
+                    <li><a href="a">CUALQUIERA PUEDE COMPRAR </a></li>
+                </ul>
+            </div>
+            
+        
+            <div class="footer-link">
+                <h4>SIGUENOS EN NUESTRAS REDES </h4>
+                <div class="social-link">
+                    
+                      <a href="a"><i class="fab fa-whatsapp"></i></a>
+                      <a href="a"><i class="fab fa-facebook"></i></a> 
+                     <a href="a"><i class="fab fa-instagram"></i></a> 
+
+           </div>
+                </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+</footer>
+</html>

@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - CHIC BOUTIQUE Marketplace</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        body {
+            background: #f8f9fa;
+        }
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f8f9fa;
+            padding: 20px;
+        }
+        .auth-card {
+            background: #fff;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
+            width: 100%;
+            max-width: 400px;
+            border: 2.5px solid #111;
+        }
+        .auth-header {
+            background: #fff;
+            color: #222;
+            padding: 30px;
+            text-align: center;
+            border-bottom: 1.5px solid #e1e1e1;
+        }
+        .auth-header h2 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+            color: #111;
+        }
+        .auth-header h2 i {
+            color: #111;
+            margin-right: 8px;
+        }
+        .auth-header p {
+            margin: 10px 0 0 0;
+            color: #555;
+            opacity: 1;
+        }
+        .auth-body {
+            padding: 40px 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #222;
+            font-weight: 500;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            font-size: 16px;
+            background: #f8f9fa;
+            color: #222;
+            transition: border-color 0.3s;
+            box-sizing: border-box;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #111;
+            background: #fff;
+        }
+        .auth-btn {
+            width: 100%;
+            padding: 15px;
+            background: #111;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s, border 0.2s;
+        }
+        .auth-btn:hover {
+            background: #fff;
+            color: #111;
+            border: 1.5px solid #111;
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #e1e1e1;
+        }
+        .auth-footer a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .auth-footer a:hover {
+            text-decoration: underline;
+        }
+        .social-login {
+            margin-top: 20px;
+        }
+        .social-btn {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 10px;
+            border: 2px solid #e1e1e1;
+            border-radius: 8px;
+            background: #fff;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+            color: #111;
+        }
+        .social-btn:hover {
+            border-color: #111;
+            background: #f8f9fa;
+            color: #111;
+        }
+        .social-btn.google {
+            color: #db4437;
+        }
+        .social-btn.facebook {
+            color: #4267B2;
+        }
+        .toggle-form {
+            background: none;
+            border: none;
+            color: #111;
+            cursor: pointer;
+            font-weight: 500;
+            margin-top: 10px;
+        }
+        .toggle-form:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: #ff4757;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        .success-message {
+            color: #111;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <!-- Formulario de Login -->
+            <div id="login-form">
+                <div class="auth-header">
+                    <h2><i class="fas fa-user"></i> Iniciar Sesión</h2>
+                    <p>Bienvenido de vuelta a CHIC BOUTIQUE</p>
+                </div>
+                <div class="auth-body">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <label for="login-email">Correo Electrónico</label>
+                            <input type="email" id="login-email" required>
+                            <div class="error-message" id="login-email-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Contraseña</label>
+                            <input type="password" id="login-password" required>
+                            <div class="error-message" id="login-password-error"></div>
+                        </div>
+                        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+                            <input type="checkbox" id="admin-check" style="width: 18px; height: 18px;">
+                            <label for="admin-check" style="margin: 0; font-size: 15px;">Entrar como administrador</label>
+                        </div>
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                        </button>
+                    </form>
+                    
+                    <div class="social-login">
+                        <button class="social-btn google" onclick="loginWithGoogle()">
+                            <i class="fab fa-google"></i> Continuar con Google
+                        </button>
+                        <button class="social-btn facebook" onclick="loginWithFacebook()">
+                            <i class="fab fa-facebook"></i> Continuar con Facebook
+                        </button>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        <a href="#" id="forgot-link">¿Olvidaste tu contraseña?</a>
+                        <p>¿No tienes cuenta? <button class="toggle-form" onclick="toggleForm()">Regístrate aquí</button></p>
+                        <a href="index.html">← Volver al inicio</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de Registro -->
+            <div id="register-form" style="display: none;">
+                <div class="auth-header">
+                    <h2><i class="fas fa-user-plus"></i> Crear Cuenta</h2>
+                    <p>Únete a CHIC BOUTIQUE Marketplace</p>
+                </div>
+                <div class="auth-body">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <label for="register-name">Nombre Completo</label>
+                            <input type="text" id="register-name" required>
+                            <div class="error-message" id="register-name-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Correo Electrónico</label>
+                            <input type="email" id="register-email" required>
+                            <div class="error-message" id="register-email-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Contraseña</label>
+                            <input type="password" id="register-password" required>
+                            <div class="error-message" id="register-password-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm-password">Confirmar Contraseña</label>
+                            <input type="password" id="register-confirm-password" required>
+                            <div class="error-message" id="register-confirm-password-error"></div>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-type">Tipo de Usuario</label>
+                            <select id="user-type" required>
+                                <option value="">Selecciona un tipo</option>
+                                <option value="buyer">Comprador</option>
+                                <option value="seller">Vendedor</option>
+                                <option value="admin">Administrador</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="auth-btn">
+                            <i class="fas fa-user-plus"></i> Crear Cuenta
+                        </button>
+                    </form>
+                    
+                    <div class="social-login">
+                        <button class="social-btn google" onclick="registerWithGoogle()">
+                            <i class="fab fa-google"></i> Registrarse con Google
+                        </button>
+                        <button class="social-btn facebook" onclick="registerWithFacebook()">
+                            <i class="fab fa-facebook"></i> Registrarse con Facebook
+                        </button>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        <p>¿Ya tienes cuenta? <button class="toggle-form" onclick="toggleForm()">Inicia sesión aquí</button></p>
+                        <a href="index.html">← Volver al inicio</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Formulario de Recuperación de Contraseña -->
+            <div id="recover-form-div" style="display: none;">
+                <div class="auth-header">
+                    <h2><i class="fas fa-unlock"></i> Recuperar Contraseña</h2>
+                    <p>Ingresa tu correo y te enviaremos instrucciones</p>
+                </div>
+                <div class="auth-body">
+                    <form id="recover-form">
+                        <div class="form-group">
+                            <label for="recover-email">Correo Electrónico</label>
+                            <input type="email" id="recover-email" required>
+                        </div>
+                        <button type="submit" class="auth-btn">Enviar instrucciones</button>
+                        <button type="button" class="toggle-form" id="back-login">Volver al login</button>
+                        <div class="success-message" id="recover-success"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Función para alternar entre formularios
+        function toggleForm() {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (loginForm.style.display === 'none') {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            } else {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            }
+        }
+
+        // Manejo del formulario de login
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            const isAdmin = document.getElementById('admin-check').checked;
+            const type = isAdmin ? 'admin' : 'buyer';
+            if (!email || !password) {
+                showError('Por favor, completa todos los campos');
+                return;
+            }
+            try {
+                const res = await fetch('http://localhost:3001/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password, type })
+                });
+                if (!res.ok) {
+                    showError('Credenciales incorrectas');
+                    return;
+                }
+                const user = await res.json();
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showSuccess('¡Inicio de sesión exitoso!');
+                setTimeout(() => {
+                    if (type === 'admin') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            } catch (err) {
+                showError('Error de conexión con el servidor');
+            }
+        });
+
+        // Manejo del formulario de registro
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
+            const type = document.getElementById('user-type').value;
+            if (!name || !email || !password || !confirmPassword || !type) {
+                showError('Por favor, completa todos los campos');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showError('Las contraseñas no coinciden');
+                return;
+            }
+            if (password.length < 6) {
+                showError('La contraseña debe tener al menos 6 caracteres');
+                return;
+            }
+            try {
+                const res = await fetch('http://localhost:3001/api/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password, type })
+                });
+                if (!res.ok) {
+                    const data = await res.json();
+                    showError(data.error || 'Error al registrar');
+                    return;
+                }
+                showSuccess('¡Cuenta creada exitosamente!');
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1000);
+            } catch (err) {
+                showError('Error de conexión con el servidor');
+            }
+        });
+
+        // Funciones de login social (simuladas)
+        function loginWithGoogle() {
+            showSuccess('Redirigiendo a Google...');
+            setTimeout(() => {
+                const user = {
+                    name: 'Usuario Google',
+                    email: 'usuario@gmail.com',
+                    type: 'buyer', // Default to buyer for social logins
+                    isLoggedIn: true
+                };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        function loginWithFacebook() {
+            showSuccess('Redirigiendo a Facebook...');
+            setTimeout(() => {
+                const user = {
+                    name: 'Usuario Facebook',
+                    email: 'usuario@facebook.com',
+                    type: 'buyer', // Default to buyer for social logins
+                    isLoggedIn: true
+                };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        function registerWithGoogle() {
+            showSuccess('Redirigiendo a Google...');
+            setTimeout(() => {
+                const user = {
+                    name: 'Usuario Google',
+                    email: 'usuario@gmail.com',
+                    type: 'buyer', // Default to buyer for social logins
+                    isLoggedIn: true
+                };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        function registerWithFacebook() {
+            showSuccess('Redirigiendo a Facebook...');
+            setTimeout(() => {
+                const user = {
+                    name: 'Usuario Facebook',
+                    email: 'usuario@facebook.com',
+                    type: 'buyer', // Default to buyer for social logins
+                    isLoggedIn: true
+                };
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                window.location.href = 'index.html';
+            }, 2000);
+        }
+
+        // Funciones de utilidad
+        function showError(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #ff4757;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1001;
+                font-weight: bold;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function showSuccess(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #111;
+                color: white;
+                padding: 15px 20px;
+                border-radius: 5px;
+                z-index: 1001;
+                font-weight: bold;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Recuperación de contraseña
+        const forgotLink = document.getElementById('forgot-link');
+        if (forgotLink) {
+            forgotLink.onclick = function(e) {
+                e.preventDefault();
+                document.getElementById('login-form').style.display = 'none';
+                let recoverDiv = document.getElementById('recover-form-div');
+                if (!recoverDiv) {
+                    recoverDiv = document.createElement('div');
+                    recoverDiv.id = 'recover-form-div';
+                    recoverDiv.innerHTML = `
+                        <div class='auth-header'><h2><i class='fas fa-unlock'></i> Recuperar Contraseña</h2><p>Ingresa tu correo y te enviaremos instrucciones</p></div>
+                        <div class='auth-body'>
+                            <form id='recover-form'>
+                                <div class='form-group'>
+                                    <label for='recover-email'>Correo Electrónico</label>
+                                    <input type='email' id='recover-email' required>
+                                </div>
+                                <button type='submit' class='auth-btn'>Enviar instrucciones</button>
+                                <button type='button' class='toggle-form' id='back-login'>Volver al login</button>
+                                <div class='success-message' id='recover-success'></div>
+                            </form>
+                        </div>
+                    `;
+                    document.querySelector('.auth-container .auth-card').appendChild(recoverDiv);
+                } else {
+                    recoverDiv.style.display = 'block';
+                }
+                document.getElementById('recover-form').onsubmit = function(ev) {
+                    ev.preventDefault();
+                    document.getElementById('recover-success').style.display = 'block';
+                    document.getElementById('recover-success').textContent = 'Si el correo existe, recibirás instrucciones en breve.';
+                };
+                document.getElementById('back-login').onclick = function() {
+                    recoverDiv.style.display = 'none';
+                    document.getElementById('login-form').style.display = 'block';
+                };
+            };
+        }
+    </script>
+</body>
+</html> 

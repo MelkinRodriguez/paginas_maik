@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Pedidos - CHIC BOUTIQUE Marketplace</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
+    <style>
+        .orders-container {
+            max-width: 1000px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+        }
+
+        .orders-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .orders-header h1 {
+            font-size: 36px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .orders-header p {
+            color: #666;
+            font-size: 18px;
+        }
+
+        .order-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .order-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .order-info h3 {
+            margin: 0;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .order-info p {
+            margin: 5px 0 0 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .order-status {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-shipped {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-delivered {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-cancelled {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .order-items {
+            margin-bottom: 20px;
+        }
+
+        .order-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .order-item:last-child {
+            border-bottom: none;
+        }
+
+        .order-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .order-item-info {
+            flex: 1;
+        }
+
+        .order-item-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .order-item-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .order-item-price {
+            font-weight: bold;
+            color: #2ed573;
+        }
+
+        .order-totals {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 2px solid #f1f1f1;
+        }
+
+        .order-total {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2ed573;
+        }
+
+        .order-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #2ed573;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #26d0ce;
+        }
+
+        .btn-secondary {
+            background: #f1f1f1;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background: #e1e1e1;
+        }
+
+        .empty-orders {
+            text-align: center;
+            padding: 60px 20px;
+            color: #666;
+        }
+
+        .empty-orders i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            color: #ddd;
+        }
+
+        .empty-orders h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .empty-orders p {
+            margin: 0 0 30px 0;
+            color: #666;
+        }
+
+        .empty-orders .btn-primary {
+            padding: 12px 24px;
+            font-size: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .order-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .order-totals {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+            
+            .order-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+        }
+
+        /* Estilos del Carrito */
+        .cart-icon {
+            position: relative;
+            margin-left: 20px;
+        }
+
+        .cart-icon a {
+            color: #333;
+            text-decoration: none;
+            font-size: 20px;
+            position: relative;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #2ed573;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f1f1f1;
+        }
+
+        .cart-header h3 {
+            margin: 0;
+            color: #333;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .cart-items {
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        .cart-item img {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .cart-item-info {
+            flex: 1;
+        }
+
+        .cart-item-info h4 {
+            margin: 0 0 5px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .cart-item-info p {
+            margin: 0;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .cart-item-price {
+            font-weight: bold;
+            color: #2ed573;
+        }
+
+        .cart-footer {
+            border-top: 2px solid #f1f1f1;
+            padding-top: 20px;
+        }
+
+        .cart-total {
+            text-align: right;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #2ed573 0%, #26d0ce 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 213, 115, 0.3);
+        }
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 0 0 10px;
+        }
+        .container-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .container-list {
+            flex: 1;
+        }
+        .list-servicos {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .list-servicos b li {
+            display: inline-block;
+            margin: 0 8px;
+        }
+        .cart-icon {
+            margin-left: auto;
+            margin-right: 10px;
+        }
+        @media (max-width: 768px) {
+            .list-servicos {
+                gap: 16px;
+            }
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .cart-icon {
+                margin: 10px 0 0 0;
+            }
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            font-weight: 600;
+            color: #111;
+            font-size: 16px;
+            gap: 8px;
+        }
+        .user-info i.fas.fa-user-circle, .user-info i.fas.fa-user {
+            color: #111 !important;
+            font-size: 22px;
+        }
+        .user-info a#logout-link {
+            color: #111;
+            background: #fff;
+            border-radius: 5px;
+            padding: 2px 10px;
+            margin-left: 10px;
+            text-decoration: none;
+            transition: background 0.2s, color 0.2s;
+        }
+        .user-info a#logout-link:hover {
+            background: #111;
+            color: #fff;
+        }
+        .user-info a {
+            color: #111;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .user-info a:hover {
+            color: #fff;
+            background: #111;
+            border-radius: 5px;
+            padding: 2px 10px;
+        }
+        .add-to-cart-btn, .checkout-btn {
+            background: #111 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s, color 0.2s;
+        }
+        .add-to-cart-btn:hover, .checkout-btn:hover {
+            background: #fff !important;
+            color: #111 !important;
+            border: 1.5px solid #111;
+        }
+        .price, .order-item-price {
+            color: #222 !important;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header class="prin">
+        <nav class="container-nav">
+            <ul class="navbar">
+                <li class="container-logo">
+                    <img class="img-logo" src="./img/logo.png" />
+                    <p class="text-logo">𝑪𝑯𝑰𝑪 𝑩𝑶𝑼𝑻𝑰𝑸𝑼𝑬</p>
+                </li>
+                <li class="container-list">
+                    <ul class="list-servicos">
+                        <b><li><a href="./index.html">𝑰𝒏𝒊𝒄𝒊𝒐</a></li></b>
+                        <b><li><a href="./productos.html">𝑷𝒓𝒐𝒅𝒖𝒄𝒕𝒐𝒔</a></li></b>
+                        <b><li><a href="./nosotros.html">𝑵𝒐𝒔𝒐𝒕𝒓𝒐𝒔</a></li></b>
+                        <b><li><a href="./orders.html">𝑴𝒊𝒔 𝑷𝒆𝒅𝒊𝒅𝒐𝒔</a></li></b>
+                        <li class="user-info" id="user-info"></li>
+                        <li class="cart-icon">
+                            <a href="#" id="cart-toggle">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="cart-count" class="cart-count">0</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Modal del Carrito -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h3>🛒 Tu Carrito</h3>
+                <button id="close-cart" class="close-btn">&times;</button>
+            </div>
+            <div id="cart-items" class="cart-items">
+                <!-- Los items del carrito se agregarán aquí dinámicamente -->
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: $<span id="cart-total">0</span></strong>
+                </div>
+                <button id="checkout-btn" class="checkout-btn">Proceder al Pago</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="orders-container">
+        <div class="orders-header">
+            <h1>Mis Pedidos</h1>
+            <p>Historial de todas tus compras</p>
+        </div>
+
+        <div id="orders-list">
+            <!-- Los pedidos se cargarán dinámicamente -->
+        </div>
+    </div>
+
+    <script>
+        class OrdersManager {
+            constructor() {
+                this.orders = JSON.parse(localStorage.getItem('orders')) || [];
+                this.init();
+            }
+
+            init() {
+                this.loadOrders();
+            }
+
+            loadOrders() {
+                const ordersList = document.getElementById('orders-list');
+                
+                if (this.orders.length === 0) {
+                    ordersList.innerHTML = `
+                        <div class="empty-orders">
+                            <i class="fas fa-shopping-bag"></i>
+                            <h3>No tienes pedidos aún</h3>
+                            <p>Comienza a comprar para ver tu historial de pedidos aquí</p>
+                            <a href="productos.html" class="action-btn btn-primary">
+                                <i class="fas fa-shopping-cart"></i> Ir a Productos
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Ordenar pedidos por fecha (más recientes primero)
+                const sortedOrders = this.orders.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                ordersList.innerHTML = sortedOrders.map(order => this.createOrderCard(order)).join('');
+            }
+
+            createOrderCard(order) {
+                const orderDate = new Date(order.date).toLocaleDateString('es-ES', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
+                const statusClass = this.getStatusClass(order.status);
+                const statusText = this.getStatusText(order.status);
+
+                return `
+                    <div class="order-card">
+                        <div class="order-header">
+                            <div class="order-info">
+                                <h3>Pedido ${order.id}</h3>
+                                <p>Realizado el ${orderDate}</p>
+                            </div>
+                            <div class="order-status ${statusClass}">
+                                ${statusText}
+                            </div>
+                        </div>
+                        
+                        <div class="order-items">
+                            ${order.items.map(item => `
+                                <div class="order-item">
+                                    <img src="${item.image}" alt="${item.name}">
+                                    <div class="order-item-info">
+                                        <h4>${item.name}</h4>
+                                        <p>Cantidad: ${item.quantity}</p>
+                                    </div>
+                                    <div class="order-item-price">
+                                        $${(item.price * item.quantity).toFixed(2)}
+                                    </div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <div class="order-totals">
+                            <div class="order-total">
+                                Total: $${order.totals.total.toFixed(2)}
+                            </div>
+                            <div class="order-actions">
+                                <button class="action-btn btn-primary" onclick="ordersManager.viewOrderDetails('${order.id}')">
+                                    <i class="fas fa-eye"></i> Ver Detalles
+                                </button>
+                                <button class="action-btn btn-secondary" onclick="ordersManager.trackOrder('${order.id}')">
+                                    <i class="fas fa-truck"></i> Rastrear
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            getStatusClass(status) {
+                const statusClasses = {
+                    'pending': 'status-pending',
+                    'shipped': 'status-shipped',
+                    'delivered': 'status-delivered',
+                    'cancelled': 'status-cancelled'
+                };
+                return statusClasses[status] || 'status-pending';
+            }
+
+            getStatusText(status) {
+                const statusTexts = {
+                    'pending': 'Pendiente',
+                    'shipped': 'Enviado',
+                    'delivered': 'Entregado',
+                    'cancelled': 'Cancelado'
+                };
+                return statusTexts[status] || 'Pendiente';
+            }
+
+            viewOrderDetails(orderId) {
+                const order = this.orders.find(o => o.id === orderId);
+                if (!order) return;
+
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        max-width: 600px;
+                        width: 90%;
+                        max-height: 80vh;
+                        overflow-y: auto;
+                        position: relative;
+                    ">
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 15px;
+                            background: none;
+                            border: none;
+                            font-size: 24px;
+                            cursor: pointer;
+                            color: #666;
+                        ">&times;</button>
+                        
+                        <h2 style="color: #333; margin-bottom: 20px;">Detalles del Pedido ${order.id}</h2>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #333; margin-bottom: 10px;">Información del Cliente:</h4>
+                            <p><strong>Nombre:</strong> ${order.customer.firstName} ${order.customer.lastName}</p>
+                            <p><strong>Email:</strong> ${order.customer.email}</p>
+                            <p><strong>Teléfono:</strong> ${order.customer.phone}</p>
+                            <p><strong>Dirección:</strong> ${order.customer.address}, ${order.customer.city}</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #333; margin-bottom: 10px;">Método de Pago:</h4>
+                            <p><strong>Tipo:</strong> ${this.getPaymentMethodName(order.payment.method)}</p>
+                        </div>
+                        
+                        <div style="margin-bottom: 20px;">
+                            <h4 style="color: #333; margin-bottom: 10px;">Resumen de Costos:</h4>
+                            <p><strong>Subtotal:</strong> $${order.totals.subtotal.toFixed(2)}</p>
+                            <p><strong>Envío:</strong> $${order.totals.shipping.toFixed(2)}</p>
+                            <p><strong>Impuestos:</strong> $${order.totals.taxes.toFixed(2)}</p>
+                            <p><strong>Total:</strong> $${order.totals.total.toFixed(2)}</p>
+                        </div>
+                        
+                        ${order.notes ? `
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="color: #333; margin-bottom: 10px;">Notas:</h4>
+                                <p>${order.notes}</p>
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Cerrar modal al hacer clic fuera
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
+
+            getPaymentMethodName(method) {
+                const methods = {
+                    'credit-card': 'Tarjeta de Crédito',
+                    'paypal': 'PayPal',
+                    'cash': 'Efectivo',
+                    'transfer': 'Transferencia Bancaria'
+                };
+                return methods[method] || method;
+            }
+
+            trackOrder(orderId) {
+                const order = this.orders.find(o => o.id === orderId);
+                if (!order) return;
+
+                const modal = document.createElement('div');
+                modal.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    background: rgba(0,0,0,0.8);
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    z-index: 1000;
+                `;
+                
+                modal.innerHTML = `
+                    <div style="
+                        background: white;
+                        padding: 30px;
+                        border-radius: 15px;
+                        max-width: 500px;
+                        width: 90%;
+                        text-align: center;
+                        position: relative;
+                    ">
+                        <button onclick="this.parentElement.parentElement.remove()" style="
+                            position: absolute;
+                            top: 15px;
+                            right: 15px;
+                            background: none;
+                            border: none;
+                            font-size: 24px;
+                            cursor: pointer;
+                            color: #666;
+                        ">&times;</button>
+                        
+                        <h2 style="color: #333; margin-bottom: 20px;">Rastreo de Pedido</h2>
+                        <h3 style="color: #2ed573; margin-bottom: 20px;">${order.id}</h3>
+                        
+                        <div style="margin-bottom: 30px;">
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                margin-bottom: 20px;
+                                color: #2ed573;
+                                font-size: 48px;
+                            ">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <p style="color: #666; font-size: 18px;">
+                                Tu pedido está siendo procesado y será enviado pronto.
+                            </p>
+                            <p style="color: #666; font-size: 14px; margin-top: 10px;">
+                                Te notificaremos cuando el envío esté en camino.
+                            </p>
+                        </div>
+                        
+                        <div style="
+                            background: #f8f9fa;
+                            padding: 20px;
+                            border-radius: 10px;
+                            text-align: left;
+                        ">
+                            <h4 style="margin: 0 0 10px 0; color: #333;">Estado Actual:</h4>
+                            <p style="margin: 0; color: #666;">
+                                <strong>Estado:</strong> ${this.getStatusText(order.status)}<br>
+                                <strong>Fecha de Pedido:</strong> ${new Date(order.date).toLocaleDateString('es-ES')}<br>
+                                <strong>Tiempo Estimado:</strong> 3-5 días hábiles
+                            </p>
+                        </div>
+                    </div>
+                `;
+                
+                document.body.appendChild(modal);
+                
+                // Cerrar modal al hacer clic fuera
+                modal.addEventListener('click', (e) => {
+                    if (e.target === modal) {
+                        modal.remove();
+                    }
+                });
+            }
+        }
+
+        // Inicializar gestor de pedidos
+        let ordersManager;
+        document.addEventListener('DOMContentLoaded', () => {
+            ordersManager = new OrdersManager();
+        });
+
+        // Funcionalidad del carrito para la página de pedidos
+        class OrdersCart {
+            constructor() {
+                this.items = JSON.parse(localStorage.getItem('cart')) || [];
+                this.init();
+            }
+
+            init() {
+                this.updateCartCount();
+                this.bindEvents();
+            }
+
+            bindEvents() {
+                // Toggle del carrito
+                document.getElementById('cart-toggle')?.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.toggleCart();
+                });
+
+                // Cerrar carrito
+                document.getElementById('close-cart')?.addEventListener('click', () => {
+                    this.hideCart();
+                });
+
+                // Cerrar al hacer clic fuera
+                document.getElementById('cart-modal')?.addEventListener('click', (e) => {
+                    if (e.target.id === 'cart-modal') {
+                        this.hideCart();
+                    }
+                });
+
+                // Proceder al pago desde el carrito
+                document.getElementById('checkout-btn')?.addEventListener('click', () => {
+                    this.hideCart();
+                    window.location.href = 'checkout.html';
+                });
+            }
+
+            toggleCart() {
+                const modal = document.getElementById('cart-modal');
+                if (modal.style.display === 'block') {
+                    this.hideCart();
+                } else {
+                    this.showCart();
+                }
+            }
+
+            showCart() {
+                const modal = document.getElementById('cart-modal');
+                modal.style.display = 'block';
+                this.loadCartItems();
+            }
+
+            hideCart() {
+                const modal = document.getElementById('cart-modal');
+                modal.style.display = 'none';
+            }
+
+            loadCartItems() {
+                const cartItems = document.getElementById('cart-items');
+                const cartTotal = document.getElementById('cart-total');
+                
+                if (this.items.length === 0) {
+                    cartItems.innerHTML = '<p style="text-align: center; color: #666;">Tu carrito está vacío</p>';
+                    cartTotal.textContent = '0';
+                    return;
+                }
+
+                cartItems.innerHTML = this.items.map(item => `
+                    <div class="cart-item">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-item-info">
+                            <h4>${item.name}</h4>
+                            <p>Cantidad: ${item.quantity}</p>
+                        </div>
+                        <div class="cart-item-price">
+                            $${(item.price * item.quantity).toFixed(2)}
+                        </div>
+                    </div>
+                `).join('');
+
+                const total = this.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+                cartTotal.textContent = total.toFixed(2);
+            }
+
+            updateCartCount() {
+                const count = this.items.reduce((sum, item) => sum + item.quantity, 0);
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.textContent = count;
+                    cartCount.style.display = count > 0 ? 'flex' : 'none';
+                }
+            }
+        }
+
+        // Inicializar carrito en pedidos
+        let ordersCart;
+        document.addEventListener('DOMContentLoaded', () => {
+            ordersCart = new OrdersCart();
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userInfo = document.getElementById('user-info');
+            if (!userInfo) return;
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (user) {
+                userInfo.innerHTML = `
+                    <i class='fas fa-user-circle'></i> ${user.nombre}
+                    <a href="#" id="logout-link" style="margin-left:10px;color:#e74c3c;">Cerrar sesión</a>
+                `;
+                document.getElementById('logout-link').onclick = function() {
+                    localStorage.removeItem('user');
+                    location.reload();
+                };
+            } else {
+                userInfo.innerHTML = `<a href="login.html"><i class="fas fa-user"></i> Iniciar sesión</a>`;
+            }
+        });
+    </script>
+</body>
+</html> 
